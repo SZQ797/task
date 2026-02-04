@@ -3,7 +3,7 @@ name: Daily SMS Task
 # 定时触发和手动触发
 on:
   schedule:
-    - cron: '04 04 * * *'   # UTC 时间对应北京时间中午 12 点
+    - cron: '06 04 * * *'   # UTC 时间对应北京时间中午 12 点
   workflow_dispatch:        # 允许手动触发
 
 jobs:
