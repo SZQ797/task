@@ -1,4 +1,4 @@
-name: Daily SMS Task
+name: Send SMS Task
 
 # 定时触发和手动触发
 on:
@@ -7,7 +7,7 @@ on:
   workflow_dispatch:        # 允许手动触发
 
 jobs:
-  run-sms:
+  send-sms:
     runs-on: ubuntu-latest
 
     steps:
