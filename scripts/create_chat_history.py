@@ -3,6 +3,7 @@ import random
 import requests
 from datetime import date
 from pathlib import Path
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 CONFIG_PATH = BASE_DIR / "config" / "users.yml"
@@ -12,41 +13,36 @@ with open(CONFIG_PATH, "r", encoding="utf-8") as f:
 
 base_url = config["base_url"]
 today = date.today().isoformat()
+users = config["users"]
 
-
-for user in config["users"]:
+def call_api(user):
     rounds = random.randint(1, 9)
-
     url = f"{base_url}/api/v1/digital_lifes/{user['digital_life_id']}/chat_history/generate"
-    payload = {
-        "date": today,
-        "rounds": rounds,
-        "device_id": user["device_id"]
+
+    resp = requests.post(
+        url,
+        headers={"Authorization": f"Bearer {user['token']}"},
+        json={
+            "date": today,
+            "rounds": rounds,
+            "device_id": user["device_id"]
+        },
+        timeout=60
+    )
+
+    return {
+        "user": user.get("name"),
+        "status": resp.status_code,
+        "response": resp.text
     }
 
-    try:
-        resp = requests.post(
-            url,
-            headers={
-                "Authorization": f"Bearer {user['token']}"
-            },
-            json=payload,
-            timeout=60
-        )
+# ⭐ 核心：并发 3 次
+with ThreadPoolExecutor(max_workers=3) as executor:
+    futures = [executor.submit(call_api, user) for user in users[:3]]
 
-        print("========== Generate Test Data ==========")
-        print(f"User       : {user.get('name')}")
-        print(f"Device ID  : {user['device_id']}")
-        print(f"Rounds     : {rounds}")
-        print(f"Status     : {resp.status_code}")
-
-        try:
-            print("Response   :", resp.json())
-        except ValueError:
-            print("Response   :", resp.text)
-
-    except Exception as e:
-        print("========== Generate Test Data FAILED ==========")
-        print(f"User       : {user.get('name')}")
-        print(f"Device ID  : {user['device_id']}")
-        print("Error      :", str(e))
+    for future in as_completed(futures):
+        result = future.result()
+        print("========== CALL RESULT ==========")
+        print("User    :", result["user"])
+        print("Status  :", result["status"])
+        print("Response:", result["response"])
