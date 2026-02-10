@@ -20,6 +20,6 @@ jobs:
           python-version: '3.11'
 
       - name: 执行 SMS 脚本
-        run: python send_sms.py
+        run: python scripts/send_sms.py
         env:
           PHONE_NUMBER: ${{ secrets.PHONE_NUMBER }}
