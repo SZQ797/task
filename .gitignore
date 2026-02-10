@@ -1,0 +1,5 @@
+# Python virtual env
+.venv/
+
+# 忽略单个文件
+scripts/create_today_fortune.py
