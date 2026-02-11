@@ -85,12 +85,10 @@ def write_if_changed(content):
     return True
 
 
-def sync_to_apifox():
+def sync_to_apifox(content):
     if not APIFOX_TOKEN:
         print("APIFOX_TOKEN not set")
         sys.exit(1)
-
-    raw_url = f"https://raw.githubusercontent.com/{os.getenv('GITHUB_REPOSITORY')}/main/{OUTPUT_FILE}"
 
     api_url = f"https://api.apifox.com/v1/projects/{APIFOX_PROJECT_ID}/import-openapi?locale=zh-CN"
 
@@ -99,10 +97,10 @@ def sync_to_apifox():
         "X-Apifox-Api-Version": APIFOX_API_VERSION,
         "Authorization": f"Bearer {APIFOX_TOKEN}",
     }
-    print(f"headers:{headers}")
+
     payload = {
         "input": {
-            "url": raw_url
+            "content": content
         },
         "options": {
             "targetEndpointFolderId": APIFOX_ENDPOINT_FOLDER_ID,
@@ -114,7 +112,6 @@ def sync_to_apifox():
             "prependBasePath": False
         }
     }
-    print(f"payload:{payload}")
 
     resp = requests.post(api_url, headers=headers, json=payload, timeout=60)
 
@@ -124,6 +121,7 @@ def sync_to_apifox():
         sys.exit(1)
 
     print("Apifox sync success.")
+
 
 
 def main():
@@ -141,11 +139,9 @@ def main():
         print("Skip sync because no changes.")
         return
 
-    print("Waiting for GitHub Raw propagation...")
-    time.sleep(10)
-
     print("Syncing to Apifox...")
-    sync_to_apifox()
+    sync_to_apifox(content)
+
 
 
 if __name__ == "__main__":
