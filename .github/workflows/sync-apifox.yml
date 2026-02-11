@@ -1,0 +1,37 @@
+name: Swagger Auto Sync To Apifox
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.10
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run filter and sync
+        env:
+          SOURCE_SWAGGER_URL: ${{ secrets.SOURCE_SWAGGER_URL }}
+          APIFOX_TOKEN: ${{ secrets.APIFOX_TOKEN }}
+          REMOVE_TAGS: ""
+        run: python filter_and_sync.py
+
+      - name: Commit swagger if changed
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add swagger_filtered.json
+          git commit -m "Auto update filtered swagger" || echo "No changes"
+          git push
