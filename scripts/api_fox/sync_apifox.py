@@ -55,7 +55,7 @@ def main():
             "endpointOverwriteBehavior": "AUTO_MERGE",
             "deleteUnmatchedResources": False,
             "schemaOverwriteBehavior": "AUTO_MERGE",
-            "updateFolderOfChangedEndpoint": True,
+            "updateFolderOfChangedEndpoint": False,
             "prependBasePath": False
         }
     }
