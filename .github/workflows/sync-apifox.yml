@@ -15,6 +15,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # 必须，保证可以 rebase
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -32,15 +34,31 @@ jobs:
           REMOVE_TAGS: ${{ secrets.REMOVE_TAGS }}
         run: python scripts/api_fox/filter_swagger.py
 
-      - name: Commit and push if changed
+      - name: Check if swagger changed
+        id: check_changes
+        run: |
+          if git diff --quiet swagger_filtered.json; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit and push
+        if: steps.check_changes.outputs.changed == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
           git add swagger_filtered.json
-          git diff --cached --quiet || git commit -m "auto: update filtered swagger"
-          git push
+          git commit -m "auto: update filtered swagger"
+
+          # 拉最新代码避免冲突
+          git pull --rebase origin main
+
+          git push origin main
 
       - name: Wait for raw propagation
+        if: steps.check_changes.outputs.changed == 'true'
         run: sleep 15
 
       - name: Sync to Apifox
