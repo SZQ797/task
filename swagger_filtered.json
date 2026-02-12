@@ -9,7 +9,7 @@
     "/api/v1/auth/login/swagger": {
       "post": {
         "tags": [
-          "授权一下"
+          "授权"
         ],
         "summary": "swagger 调试专用",
         "description": "用于快捷获取 token 进行 swagger 认证",
