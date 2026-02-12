@@ -29,7 +29,8 @@ jobs:
       - name: Generate filtered swagger
         env:
           SOURCE_SWAGGER_URL: ${{ secrets.SOURCE_SWAGGER_URL }}
-          REMOVE_TAGS: ${{ secrets.REMOVE_TAGS }}
+          APIFOX_TOKEN: ${{ secrets.APIFOX_TOKEN }}
+          REMOVE_TAGS: ""
         run: python scripts/api_fox/filter_swagger.py
 
       - name: Commit and push if changed
