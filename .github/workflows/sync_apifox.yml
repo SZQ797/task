@@ -59,12 +59,15 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
+      
+          # 强制同步远程最新 main
+          git fetch origin main
+          git reset --hard origin/main
+      
           git add swagger_filtered.json
-          git commit -m "auto: update filtered swagger"
-
-          # CI 场景推荐方式（安全强制）
-          git push --force-with-lease origin main
+          git commit -m "auto: update filtered swagger" || echo "No changes to commit"
+      
+          git push origin main
 
       # 7️⃣ 等待 raw 生效（仅当有变更）
       - name: Wait for raw propagation
