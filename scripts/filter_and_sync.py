@@ -13,9 +13,15 @@ SOURCE_SWAGGER_URL = os.getenv("SOURCE_SWAGGER_URL")
 APIFOX_TOKEN = os.getenv("APIFOX_TOKEN")
 REMOVE_TAGS = os.getenv("REMOVE_TAGS", "")
 
+# APIFox接口文档：https://apifox-openapi.apifox.cn/api-173409873
 APIFOX_PROJECT_ID = "6303814"
-APIFOX_ENDPOINT_FOLDER_ID = 78489279
+
+# 用于存储或匹配 API 接口的目标目录的 ID。如果未指定，目标目录将为 Root 目录
+APIFOX_ENDPOINT_FOLDER_ID = 78511592
+
+#用于存储或匹配数据模型的目标目录的 ID。如果未指定，目标目录将为 Root 目录
 APIFOX_SCHEMA_FOLDER_ID = 18424983
+
 APIFOX_API_VERSION = "2024-03-28"
 
 OUTPUT_FILE = "swagger_filtered.json"
