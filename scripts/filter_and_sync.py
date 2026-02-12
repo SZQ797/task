@@ -118,6 +118,8 @@ def sync_to_apifox(content):
             "prependBasePath": False
         }
     }
+    print(f"headers:{headers}")
+    print(f"payload:{payload}")
 
     resp = requests.post(api_url, headers=headers, json=payload, timeout=60)
 
