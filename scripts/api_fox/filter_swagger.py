@@ -1,6 +1,5 @@
 import requests
 import json
-import hashlib
 import os
 import sys
 from dotenv import load_dotenv
@@ -53,40 +52,16 @@ def filter_swagger(data):
     return data
 
 
-def calculate_hash(content):
-    return hashlib.md5(content.encode("utf-8")).hexdigest()
-
-
-def write_if_changed(content):
-    new_hash = calculate_hash(content)
-
-    if os.path.exists(OUTPUT_FILE):
-        with open(OUTPUT_FILE, "r", encoding="utf-8") as f:
-            old_content = f.read()
-
-        if calculate_hash(old_content) == new_hash:
-            print("Swagger has no changes.")
-            return False
-
-    with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
-        f.write(content)
-
-    print("Swagger updated.")
-    return True
-
-
 def main():
     swagger = fetch_swagger()
     filtered = filter_swagger(swagger)
 
     content = json.dumps(filtered, ensure_ascii=False, indent=2)
 
-    changed = write_if_changed(content)
+    with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
+        f.write(content)
 
-    if not changed:
-        print("NO_CHANGE=true")
-    else:
-        print("NO_CHANGE=false")
+    print(f"Swagger written to {OUTPUT_FILE}")
 
 
 if __name__ == "__main__":

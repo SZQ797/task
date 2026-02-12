@@ -48,14 +48,14 @@ jobs:
           REMOVE_TAGS: ${{ secrets.REMOVE_TAGS }}
         run: python scripts/api_fox/filter_swagger.py
 
-      # 5️⃣ 判断是否变化
+      # 5️⃣ 判断是否变化（兼容首次创建和后续更新）
       - name: Check changes
         id: check_changes
         run: |
-          if git diff --quiet swagger_filtered.json; then
-            echo "changed=false" >> $GITHUB_OUTPUT
-          else
+          if [ -n "$(git status --porcelain swagger_filtered.json)" ]; then
             echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
           fi
 
       # 6️⃣ commit + push
@@ -72,6 +72,7 @@ jobs:
 
       # 7️⃣ 同步 Apifox
       - name: Sync to Apifox
+        if: steps.check_changes.outputs.changed == 'true'
         env:
           APIFOX_TOKEN: ${{ secrets.APIFOX_TOKEN }}
         run: python scripts/api_fox/sync_apifox.py
