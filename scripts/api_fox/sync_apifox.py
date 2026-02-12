@@ -60,9 +60,11 @@ def main():
         }
     }
 
-    print(f"Syncing from URL: {raw_url}")
-
     resp = requests.post(api_url, headers=headers, json=payload, timeout=60)
+
+    print(f"headers: {headers}")
+    print(f"payload: {payload}")
+    print(f"resp: {resp.json()}")
 
     if resp.status_code != 200:
         print("Apifox sync failed:")
