@@ -1,9 +1,8 @@
 name: Create Chat History Task
 
-# 定时触发和手动触发
 on:
   schedule:
-    - cron: '0 2 * * *'
+    - cron: '0 2 * * *'   # 北京时间 10:00
   workflow_dispatch:
 
 jobs:
@@ -19,9 +18,14 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install deps
+      - name: 安装依赖
         run: |
           pip install requests pyyaml
 
       - name: 执行脚本
+        env:
+          BASE_URL: ${{ secrets.BASE_URL }}
+          USER1_TOKEN: ${{ secrets.USER1_TOKEN }}
+          USER2_TOKEN: ${{ secrets.USER2_TOKEN }}
+          USER3_TOKEN: ${{ secrets.USER3_TOKEN }}
         run: python scripts/create_chat_history.py
