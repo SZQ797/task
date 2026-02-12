@@ -403,6 +403,674 @@
         }
       }
     },
+    "/api/v1/sys/users/me": {
+      "get": {
+        "tags": [
+          "系统用户"
+        ],
+        "summary": "获取当前用户信息",
+        "operationId": "get_current_user",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseSchemaModel_GetCurrentUserInfoWithRelationDetail_"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "系统用户"
+        ],
+        "summary": "更新当前用户信息",
+        "operationId": "update_current_user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCurrentUserParam"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/sys/users/zodiac": {
+      "get": {
+        "tags": [
+          "系统用户"
+        ],
+        "summary": "根据生日推算星座",
+        "operationId": "get_zodiac_by_birthday",
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "birthday",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "title": "Birthday"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseSchemaModel_ZodiacCalcResult_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/sys/users/{pk}": {
+      "get": {
+        "tags": [
+          "系统用户"
+        ],
+        "summary": "获取用户信息",
+        "operationId": "get_userinfo",
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "pk",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "用户 ID",
+              "title": "Pk"
+            },
+            "description": "用户 ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseSchemaModel_GetUserInfoWithRelationDetail_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "系统用户"
+        ],
+        "summary": "更新用户信息",
+        "operationId": "update_user",
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "pk",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "description": "用户 ID",
+              "title": "Pk"
+            },
+            "description": "用户 ID"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserParam"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "系统用户"
+        ],
+        "summary": "删除用户",
+        "operationId": "delete_user",
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "pk",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "description": "用户 ID",
+              "title": "Pk"
+            },
+            "description": "用户 ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/sys/users/{pk}/roles": {
+      "get": {
+        "tags": [
+          "系统用户"
+        ],
+        "summary": "获取用户所有角色",
+        "operationId": "get_user_roles",
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "pk",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "description": "用户 ID",
+              "title": "Pk"
+            },
+            "description": "用户 ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseSchemaModel_list_GetRoleDetail__"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/sys/users": {
+      "post": {
+        "tags": [
+          "系统用户"
+        ],
+        "summary": "创建用户",
+        "operationId": "create_user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddUserParam"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseSchemaModel_GetUserInfoWithRelationDetail_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/sys/users/{pk}/permissions": {
+      "put": {
+        "tags": [
+          "系统用户"
+        ],
+        "summary": "更新用户权限",
+        "operationId": "update_user_permission",
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "pk",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "description": "用户 ID",
+              "title": "Pk"
+            },
+            "description": "用户 ID"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/UserPermissionType",
+              "description": "权限类型"
+            },
+            "description": "权限类型"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/sys/users/me/password": {
+      "put": {
+        "tags": [
+          "系统用户"
+        ],
+        "summary": "更新当前用户密码",
+        "operationId": "update_user_password",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetPasswordParam"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/sys/users/{pk}/password": {
+      "put": {
+        "tags": [
+          "系统用户"
+        ],
+        "summary": "重置用户密码",
+        "operationId": "reset_user_password",
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "pk",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "description": "用户 ID",
+              "title": "Pk"
+            },
+            "description": "用户 ID"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_reset_user_password_api_v1_sys_users__pk__password_put"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/sys/users/me/nickname": {
+      "put": {
+        "tags": [
+          "系统用户"
+        ],
+        "summary": "更新当前用户昵称",
+        "operationId": "update_user_nickname",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_update_user_nickname_api_v1_sys_users_me_nickname_put"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/sys/users/me/avatar": {
+      "put": {
+        "tags": [
+          "系统用户"
+        ],
+        "summary": "更新当前用户头像",
+        "operationId": "update_user_avatar",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_update_user_avatar_api_v1_sys_users_me_avatar_put"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/sys/users/me/email": {
+      "put": {
+        "tags": [
+          "系统用户"
+        ],
+        "summary": "更新当前用户邮箱",
+        "operationId": "update_user_email",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_update_user_email_api_v1_sys_users_me_email_put"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ]
+      }
+    },
     "/api/v1/sys/regions/provinces": {
       "get": {
         "tags": [
