@@ -8,13 +8,13 @@ load_dotenv()
 APIFOX_TOKEN = os.getenv("APIFOX_TOKEN")
 
 # APIFox接口文档：https://apifox-openapi.apifox.cn/api-173409873
-APIFOX_PROJECT_ID = "6303814"
+APIFOX_PROJECT_ID = "7634787"
 
 # 用于存储或匹配 API 接口的目标目录的 ID。如果未指定，目标目录将为 Root 目录
-APIFOX_ENDPOINT_FOLDER_ID = 78522823
+APIFOX_ENDPOINT_FOLDER_ID = 78489279
 
 #用于存储或匹配数据模型的目标目录的 ID。如果未指定，目标目录将为 Root 目录
-APIFOX_SCHEMA_FOLDER_ID = 18428082
+APIFOX_SCHEMA_FOLDER_ID = 18430184
 
 APIFOX_API_VERSION = "2024-03-28"
 
