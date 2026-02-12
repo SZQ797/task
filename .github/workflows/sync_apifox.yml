@@ -1,6 +1,5 @@
 name: Swagger Auto Sync To Apifox
 
-# 防止并发冲突
 concurrency:
   group: swagger-sync
   cancel-in-progress: true
@@ -18,33 +17,39 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ 拉代码（必须 fetch-depth:0）
-      - name: Checkout repository
+      # 1️⃣ checkout main 分支
+      - name: Checkout main
         uses: actions/checkout@v4
         with:
+          ref: main
           fetch-depth: 0
 
-      # 2️⃣ Python 环境
+      # 2️⃣ 强制同步远程最新 main
+      - name: Reset to latest main
+        run: |
+          git fetch origin main
+          git reset --hard origin/main
+
+      # 3️⃣ Python
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      # 3️⃣ 安装依赖
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install requests python-dotenv
 
-      # 4️⃣ 生成过滤后的 swagger
+      # 4️⃣ 生成 swagger
       - name: Generate filtered swagger
         env:
           SOURCE_SWAGGER_URL: ${{ secrets.SOURCE_SWAGGER_URL }}
           REMOVE_TAGS: ${{ secrets.REMOVE_TAGS }}
         run: python scripts/api_fox/filter_swagger.py
 
-      # 5️⃣ 检查是否有变化
-      - name: Check if swagger changed
+      # 5️⃣ 判断是否变化
+      - name: Check changes
         id: check_changes
         run: |
           if git diff --quiet swagger_filtered.json; then
@@ -53,28 +58,19 @@ jobs:
             echo "changed=true" >> $GITHUB_OUTPUT
           fi
 
-      # 6️⃣ 只有变化才提交
+      # 6️⃣ commit + push
       - name: Commit and push
         if: steps.check_changes.outputs.changed == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-      
-          # 强制同步远程最新 main
-          git fetch origin main
-          git reset --hard origin/main
-      
+
           git add swagger_filtered.json
-          git commit -m "auto: update filtered swagger" || echo "No changes to commit"
-      
+          git commit -m "auto: update filtered swagger"
+
           git push origin main
 
-      # 7️⃣ 等待 raw 生效（仅当有变更）
-      - name: Wait for raw propagation
-        if: steps.check_changes.outputs.changed == 'true'
-        run: sleep 15
-
-      # 8️⃣ 同步到 Apifox
+      # 7️⃣ 同步 Apifox
       - name: Sync to Apifox
         env:
           APIFOX_TOKEN: ${{ secrets.APIFOX_TOKEN }}
