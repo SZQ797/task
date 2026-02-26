@@ -2585,6 +2585,88 @@
         }
       }
     },
+    "/api/v1/devices/iot-platform/fibocom/fota/to_be_confirm": {
+      "post": {
+        "tags": [
+          "IOT-广和通平台设备管理"
+        ],
+        "summary": "IOT广和通-用户查询升级任务",
+        "operationId": "fota_to_be_confirm",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FotaToBeConfirmParam"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseSchemaModel_FotaToBeConfirmDetail_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/devices/iot-platform/fibocom/fota/confirm": {
+      "post": {
+        "tags": [
+          "IOT-广和通平台设备管理"
+        ],
+        "summary": "IOT广和通-用户确认升级",
+        "operationId": "fota_confirm",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FotaConfirmParam"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseSchemaModel_FotaConfirmDetail_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/digital_lifes/{pk}": {
       "get": {
         "tags": [
@@ -5493,6 +5575,180 @@
         ],
         "title": "FortuneAnalysisResult",
         "description": "运势分析结果"
+      },
+      "FotaConfirmDetail": {
+        "properties": {
+          "sn": {
+            "type": "string",
+            "title": "Sn",
+            "description": "模组序列号"
+          },
+          "task_id": {
+            "type": "string",
+            "title": "Task Id",
+            "description": "任务ID"
+          },
+          "message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Message",
+            "description": "提示信息"
+          },
+          "data": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Data",
+            "description": "原始数据"
+          }
+        },
+        "type": "object",
+        "required": [
+          "sn",
+          "task_id"
+        ],
+        "title": "FotaConfirmDetail",
+        "description": "用户确认升级结果"
+      },
+      "FotaConfirmParam": {
+        "properties": {
+          "device_id": {
+            "type": "string",
+            "title": "Device Id",
+            "description": "设备 ID"
+          },
+          "task_id": {
+            "type": "string",
+            "title": "Task Id",
+            "description": "任务ID"
+          }
+        },
+        "type": "object",
+        "required": [
+          "device_id",
+          "task_id"
+        ],
+        "title": "FotaConfirmParam",
+        "description": "用户确认升级参数"
+      },
+      "FotaToBeConfirmDetail": {
+        "properties": {
+          "sn": {
+            "type": "string",
+            "title": "Sn",
+            "description": "模组序列号"
+          },
+          "need_upgrade": {
+            "type": "boolean",
+            "title": "Need Upgrade",
+            "description": "是否需要升级"
+          },
+          "task_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Task Id",
+            "description": "任务ID"
+          },
+          "cur_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cur Version",
+            "description": "当前版本号"
+          },
+          "target_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Target Version",
+            "description": "目标版本号"
+          },
+          "remark": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Remark",
+            "description": "升级内容描述"
+          },
+          "time_stamp": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Time Stamp",
+            "description": "任务创建时间戳"
+          },
+          "message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Message",
+            "description": "提示信息"
+          },
+          "data": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Data",
+            "description": "原始数据"
+          }
+        },
+        "type": "object",
+        "required": [
+          "sn",
+          "need_upgrade"
+        ],
+        "title": "FotaToBeConfirmDetail",
+        "description": "用户查询升级任务结果"
+      },
+      "FotaToBeConfirmParam": {
+        "properties": {
+          "device_id": {
+            "type": "string",
+            "title": "Device Id",
+            "description": "设备 ID"
+          }
+        },
+        "type": "object",
+        "required": [
+          "device_id"
+        ],
+        "title": "FotaToBeConfirmParam",
+        "description": "用户查询升级任务参数"
       },
       "GenerateChatHistoryParam": {
         "properties": {
@@ -11804,6 +12060,54 @@
           "data"
         ],
         "title": "ResponseSchemaModel[FortuneAnalysisResult]"
+      },
+      "ResponseSchemaModel_FotaConfirmDetail_": {
+        "properties": {
+          "code": {
+            "type": "integer",
+            "title": "Code",
+            "description": "返回状态码",
+            "default": 200
+          },
+          "msg": {
+            "type": "string",
+            "title": "Msg",
+            "description": "返回信息",
+            "default": "请求成功"
+          },
+          "data": {
+            "$ref": "#/components/schemas/FotaConfirmDetail"
+          }
+        },
+        "type": "object",
+        "required": [
+          "data"
+        ],
+        "title": "ResponseSchemaModel[FotaConfirmDetail]"
+      },
+      "ResponseSchemaModel_FotaToBeConfirmDetail_": {
+        "properties": {
+          "code": {
+            "type": "integer",
+            "title": "Code",
+            "description": "返回状态码",
+            "default": 200
+          },
+          "msg": {
+            "type": "string",
+            "title": "Msg",
+            "description": "返回信息",
+            "default": "请求成功"
+          },
+          "data": {
+            "$ref": "#/components/schemas/FotaToBeConfirmDetail"
+          }
+        },
+        "type": "object",
+        "required": [
+          "data"
+        ],
+        "title": "ResponseSchemaModel[FotaToBeConfirmDetail]"
       },
       "ResponseSchemaModel_GenerateChatHistoryResult_": {
         "properties": {
