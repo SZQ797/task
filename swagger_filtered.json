@@ -2667,6 +2667,47 @@
         }
       }
     },
+    "/api/v1/devices/iot-platform/fibocom/fota/task_status": {
+      "post": {
+        "tags": [
+          "IOT-广和通平台设备管理"
+        ],
+        "summary": "IOT广和通-用户查询升级任务状态",
+        "operationId": "fota_task_status",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FotaTaskStatusParam"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseSchemaModel_FotaTaskStatusDetail_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/digital_lifes/{pk}": {
       "get": {
         "tags": [
@@ -5635,6 +5676,78 @@
         ],
         "title": "FotaConfirmParam",
         "description": "用户确认升级参数"
+      },
+      "FotaTaskStatusDetail": {
+        "properties": {
+          "task_id": {
+            "type": "string",
+            "title": "Task Id",
+            "description": "任务ID"
+          },
+          "sn": {
+            "type": "string",
+            "title": "Sn",
+            "description": "模组序列号"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Status",
+            "description": "任务状态"
+          },
+          "message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Message",
+            "description": "提示信息"
+          },
+          "data": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Data",
+            "description": "原始数据"
+          }
+        },
+        "type": "object",
+        "required": [
+          "task_id",
+          "sn"
+        ],
+        "title": "FotaTaskStatusDetail",
+        "description": "用户查询升级任务状态结果"
+      },
+      "FotaTaskStatusParam": {
+        "properties": {
+          "device_id": {
+            "type": "string",
+            "title": "Device Id",
+            "description": "设备 ID"
+          },
+          "task_id": {
+            "type": "string",
+            "title": "Task Id",
+            "description": "任务ID"
+          }
+        },
+        "type": "object",
+        "required": [
+          "device_id",
+          "task_id"
+        ],
+        "title": "FotaTaskStatusParam",
+        "description": "用户查询升级任务状态参数"
       },
       "FotaToBeConfirmDetail": {
         "properties": {
@@ -12084,6 +12197,30 @@
           "data"
         ],
         "title": "ResponseSchemaModel[FotaConfirmDetail]"
+      },
+      "ResponseSchemaModel_FotaTaskStatusDetail_": {
+        "properties": {
+          "code": {
+            "type": "integer",
+            "title": "Code",
+            "description": "返回状态码",
+            "default": 200
+          },
+          "msg": {
+            "type": "string",
+            "title": "Msg",
+            "description": "返回信息",
+            "default": "请求成功"
+          },
+          "data": {
+            "$ref": "#/components/schemas/FotaTaskStatusDetail"
+          }
+        },
+        "type": "object",
+        "required": [
+          "data"
+        ],
+        "title": "ResponseSchemaModel[FotaTaskStatusDetail]"
       },
       "ResponseSchemaModel_FotaToBeConfirmDetail_": {
         "properties": {
