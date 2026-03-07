@@ -1221,6 +1221,52 @@
         }
       }
     },
+    "/api/v1/devices/bind": {
+      "put": {
+        "tags": [
+          "设备管理"
+        ],
+        "summary": "用户绑定设备",
+        "operationId": "bind_device_user",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BindDeviceUserParam"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseSchemaModel_GetDeviceDetail_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ]
+      }
+    },
     "/api/v1/devices/bind/history": {
       "get": {
         "tags": [
@@ -3988,6 +4034,52 @@
         }
       }
     },
+    "/api/v1/activation_codes/redeem": {
+      "post": {
+        "tags": [
+          "激活码"
+        ],
+        "summary": "核销激活码",
+        "operationId": "redeem_activation_code",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RedeemActivationCodeParam"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseSchemaModel_RedeemActivationCodeResult_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ]
+      }
+    },
     "/api/v1/health": {
       "get": {
         "summary": "服务健康检测",
@@ -4202,6 +4294,21 @@
         ],
         "title": "BindDeviceParam",
         "description": "绑定设备参数"
+      },
+      "BindDeviceUserParam": {
+        "properties": {
+          "hardware_no": {
+            "type": "string",
+            "title": "Hardware No",
+            "description": "硬件编号"
+          }
+        },
+        "type": "object",
+        "required": [
+          "hardware_no"
+        ],
+        "title": "BindDeviceUserParam",
+        "description": "绑定用户参数"
       },
       "BindDigitalLifeParam": {
         "properties": {
@@ -4631,6 +4738,32 @@
             ],
             "title": "Persona Id",
             "description": "人设ID"
+          },
+          "trial_started_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trial Started At",
+            "description": "试用期开始时间"
+          },
+          "access_expires_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Access Expires At",
+            "description": "订阅有效期截止时间"
           }
         },
         "type": "object",
@@ -5520,6 +5653,32 @@
             ],
             "title": "Persona Id",
             "description": "人设ID"
+          },
+          "trial_started_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trial Started At",
+            "description": "试用期开始时间"
+          },
+          "access_expires_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Access Expires At",
+            "description": "订阅有效期截止时间"
           },
           "is_primary": {
             "type": "boolean",
@@ -6981,6 +7140,32 @@
             "title": "Persona Id",
             "description": "人设ID"
           },
+          "trial_started_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trial Started At",
+            "description": "试用期开始时间"
+          },
+          "access_expires_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Access Expires At",
+            "description": "订阅有效期截止时间"
+          },
           "device_id": {
             "type": "string",
             "title": "Device Id",
@@ -7349,6 +7534,32 @@
             ],
             "title": "Persona Id",
             "description": "人设ID"
+          },
+          "trial_started_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trial Started At",
+            "description": "试用期开始时间"
+          },
+          "access_expires_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Access Expires At",
+            "description": "订阅有效期截止时间"
           },
           "device_id": {
             "type": "string",
@@ -11982,6 +12193,61 @@
         ],
         "title": "PresignUrlDetail"
       },
+      "RedeemActivationCodeParam": {
+        "properties": {
+          "device_id": {
+            "type": "string",
+            "title": "Device Id",
+            "description": "设备ID"
+          },
+          "code": {
+            "type": "string",
+            "title": "Code",
+            "description": "激活码"
+          }
+        },
+        "type": "object",
+        "required": [
+          "device_id",
+          "code"
+        ],
+        "title": "RedeemActivationCodeParam",
+        "description": "核销参数"
+      },
+      "RedeemActivationCodeResult": {
+        "properties": {
+          "device_id": {
+            "type": "string",
+            "title": "Device Id",
+            "description": "设备ID"
+          },
+          "activation_code_id": {
+            "type": "string",
+            "title": "Activation Code Id",
+            "description": "激活码ID"
+          },
+          "duration_days": {
+            "type": "integer",
+            "title": "Duration Days",
+            "description": "订阅时长(天)"
+          },
+          "access_expires_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Access Expires At",
+            "description": "订阅有效期截止时间"
+          }
+        },
+        "type": "object",
+        "required": [
+          "device_id",
+          "activation_code_id",
+          "duration_days",
+          "access_expires_at"
+        ],
+        "title": "RedeemActivationCodeResult",
+        "description": "核销结果"
+      },
       "RegionNode": {
         "properties": {
           "code": {
@@ -13061,6 +13327,30 @@
           "data"
         ],
         "title": "ResponseSchemaModel[PresignUrlDetail]"
+      },
+      "ResponseSchemaModel_RedeemActivationCodeResult_": {
+        "properties": {
+          "code": {
+            "type": "integer",
+            "title": "Code",
+            "description": "返回状态码",
+            "default": 200
+          },
+          "msg": {
+            "type": "string",
+            "title": "Msg",
+            "description": "返回信息",
+            "default": "请求成功"
+          },
+          "data": {
+            "$ref": "#/components/schemas/RedeemActivationCodeResult"
+          }
+        },
+        "type": "object",
+        "required": [
+          "data"
+        ],
+        "title": "ResponseSchemaModel[RedeemActivationCodeResult]"
       },
       "ResponseSchemaModel_SetVolumeDetail_": {
         "properties": {
@@ -14698,6 +14988,32 @@
             ],
             "title": "Persona Id",
             "description": "人设ID"
+          },
+          "trial_started_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trial Started At",
+            "description": "试用期开始时间"
+          },
+          "access_expires_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Access Expires At",
+            "description": "订阅有效期截止时间"
           }
         },
         "type": "object",
