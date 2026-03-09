@@ -3869,6 +3869,24 @@
             "description": "结束日期"
           },
           {
+            "name": "order",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "analysis_date 排序方式（asc/desc）",
+              "title": "Order"
+            },
+            "description": "analysis_date 排序方式（asc/desc）"
+          },
+          {
             "name": "page",
             "in": "query",
             "required": false,
@@ -4738,32 +4756,6 @@
             ],
             "title": "Persona Id",
             "description": "人设ID"
-          },
-          "trial_started_at": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Trial Started At",
-            "description": "试用期开始时间"
-          },
-          "access_expires_at": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Access Expires At",
-            "description": "订阅有效期截止时间"
           }
         },
         "type": "object",
@@ -5653,32 +5645,6 @@
             ],
             "title": "Persona Id",
             "description": "人设ID"
-          },
-          "trial_started_at": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Trial Started At",
-            "description": "试用期开始时间"
-          },
-          "access_expires_at": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Access Expires At",
-            "description": "订阅有效期截止时间"
           },
           "is_primary": {
             "type": "boolean",
@@ -7140,32 +7106,6 @@
             "title": "Persona Id",
             "description": "人设ID"
           },
-          "trial_started_at": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Trial Started At",
-            "description": "试用期开始时间"
-          },
-          "access_expires_at": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Access Expires At",
-            "description": "订阅有效期截止时间"
-          },
           "device_id": {
             "type": "string",
             "title": "Device Id",
@@ -7201,6 +7141,32 @@
             "title": "Is Primary",
             "description": "是否主设备",
             "default": false
+          },
+          "trial_started_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trial Started At",
+            "description": "试用期开始时间"
+          },
+          "access_expires_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Access Expires At",
+            "description": "订阅有效期截止时间"
           }
         },
         "type": "object",
@@ -7535,32 +7501,6 @@
             "title": "Persona Id",
             "description": "人设ID"
           },
-          "trial_started_at": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Trial Started At",
-            "description": "试用期开始时间"
-          },
-          "access_expires_at": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Access Expires At",
-            "description": "订阅有效期截止时间"
-          },
           "device_id": {
             "type": "string",
             "title": "Device Id",
@@ -7596,6 +7536,32 @@
             "title": "Is Primary",
             "description": "是否主设备",
             "default": false
+          },
+          "trial_started_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Trial Started At",
+            "description": "试用期开始时间"
+          },
+          "access_expires_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Access Expires At",
+            "description": "订阅有效期截止时间"
           }
         },
         "type": "object",
@@ -14988,32 +14954,6 @@
             ],
             "title": "Persona Id",
             "description": "人设ID"
-          },
-          "trial_started_at": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Trial Started At",
-            "description": "试用期开始时间"
-          },
-          "access_expires_at": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Access Expires At",
-            "description": "订阅有效期截止时间"
           }
         },
         "type": "object",
