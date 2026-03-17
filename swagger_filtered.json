@@ -169,6 +169,32 @@
         }
       }
     },
+    "/api/v1/auth/withdraw": {
+      "post": {
+        "tags": [
+          "授权"
+        ],
+        "summary": "用户注销",
+        "operationId": "withdraw",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModel"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ]
+      }
+    },
     "/api/v1/auth/wxapp_login": {
       "post": {
         "tags": [
@@ -217,7 +243,6 @@
           "授权"
         ],
         "summary": "发送短信验证码",
-        "description": "method 可选: login|signup|forget|bind",
         "operationId": "sms_send",
         "requestBody": {
           "content": {
@@ -258,7 +283,7 @@
         "tags": [
           "授权"
         ],
-        "summary": "短信验证码登录",
+        "summary": "短信验证码登录即注册",
         "operationId": "sms_login",
         "requestBody": {
           "content": {
@@ -277,47 +302,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResponseSchemaModel_GetUserToken_"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/auth/sms/register": {
-      "post": {
-        "tags": [
-          "授权"
-        ],
-        "summary": "短信验证码注册并登录",
-        "operationId": "sms_register",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SmsRegisterParam"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResponseSchemaModel_GetLoginToken_"
                 }
               }
             }
@@ -14327,66 +14311,6 @@
         "title": "SmsLoginParam",
         "description": "短信登录参数"
       },
-      "SmsMethodType": {
-        "type": "string",
-        "enum": [
-          "login",
-          "signup",
-          "forget",
-          "bind"
-        ],
-        "title": "SmsMethodType",
-        "description": "短信场景"
-      },
-      "SmsRegisterParam": {
-        "properties": {
-          "phone": {
-            "type": "string",
-            "pattern": "^1[3-9]\\d{9}$",
-            "title": "Phone",
-            "description": "手机号"
-          },
-          "code": {
-            "type": "string",
-            "title": "Code",
-            "description": "短信验证码"
-          },
-          "nickname": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Nickname",
-            "description": "昵称"
-          },
-          "avatar": {
-            "anyOf": [
-              {
-                "type": "string",
-                "maxLength": 2083,
-                "minLength": 1,
-                "format": "uri"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Avatar",
-            "description": "头像地址"
-          }
-        },
-        "type": "object",
-        "required": [
-          "phone",
-          "code"
-        ],
-        "title": "SmsRegisterParam",
-        "description": "短信注册参数"
-      },
       "SmsSendParam": {
         "properties": {
           "phone": {
@@ -14394,10 +14318,6 @@
             "pattern": "^1[3-9]\\d{9}$",
             "title": "Phone",
             "description": "手机号"
-          },
-          "method": {
-            "$ref": "#/components/schemas/SmsMethodType",
-            "description": "场景"
           },
           "captcha_type": {
             "$ref": "#/components/schemas/SmsCheckType",
@@ -14419,8 +14339,7 @@
         },
         "type": "object",
         "required": [
-          "phone",
-          "method"
+          "phone"
         ],
         "title": "SmsSendParam",
         "description": "短信发送参数"
