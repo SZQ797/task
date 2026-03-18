@@ -387,6 +387,50 @@
         }
       }
     },
+    "/api/v1/sys/devices/{hardware_no}/initialize": {
+      "post": {
+        "tags": [
+          "系统设备"
+        ],
+        "summary": "设备初始化",
+        "operationId": "initialize_device",
+        "parameters": [
+          {
+            "name": "hardware_no",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "硬件编号",
+              "title": "Hardware No"
+            },
+            "description": "硬件编号"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/sys/users/me": {
       "get": {
         "tags": [
