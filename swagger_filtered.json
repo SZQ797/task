@@ -11064,14 +11064,13 @@
           "login_type": {
             "anyOf": [
               {
-                "type": "string"
+                "$ref": "#/components/schemas/LoginType"
               },
               {
                 "type": "null"
               }
             ],
-            "title": "Login Type",
-            "description": "登录类型: login 或 register"
+            "description": "登录类型"
           }
         },
         "type": "object",
@@ -11137,6 +11136,15 @@
         ],
         "title": "LabelAggregatedItem",
         "description": "标签聚合项"
+      },
+      "LoginType": {
+        "type": "string",
+        "enum": [
+          "login",
+          "signup"
+        ],
+        "title": "LoginType",
+        "description": "登录类型"
       },
       "MenuType": {
         "type": "integer",
