@@ -1,0 +1,38 @@
+name: Refresh Token Task
+
+on:
+  schedule:
+    - cron: '0 1 1,15 * *'   # 每月1号和15号 北京时间 09:00
+  workflow_dispatch:
+
+jobs:
+  refresh-token:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 拉取仓库代码
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_PAT }}
+
+      - name: 设置 Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 安装依赖
+        run: |
+          pip install requests pyyaml
+
+      - name: 执行 Token 刷新脚本
+        env:
+          BASE_URL: ${{ secrets.BASE_URL }}
+        run: python scripts/refresh_token.py
+
+      - name: 提交更新后的 Token
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add config/users.yml
+          git diff --cached --quiet || git commit -m "auto: refresh user tokens"
+          git push
