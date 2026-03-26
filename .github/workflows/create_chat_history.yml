@@ -25,7 +25,4 @@ jobs:
       - name: 执行脚本
         env:
           BASE_URL: ${{ secrets.BASE_URL }}
-          USER1_TOKEN: ${{ secrets.USER1_TOKEN }}
-          USER2_TOKEN: ${{ secrets.USER2_TOKEN }}
-          USER3_TOKEN: ${{ secrets.USER3_TOKEN }}
         run: python scripts/create_chat_history.py

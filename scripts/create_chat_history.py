@@ -5,9 +5,11 @@ import requests
 from datetime import date
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from dotenv import load_dotenv
 
 # ===== 基础路径 =====
 BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(BASE_DIR / ".env")
 CONFIG_PATH = BASE_DIR / "config" / "users.yml"
 
 # ===== 读取配置 =====
@@ -25,11 +27,11 @@ today = date.today().isoformat()
 
 
 def call_api(user):
-    token = os.getenv(user["token_env"])
+    token = user.get("token")
     if not token:
-        raise RuntimeError(f"{user['token_env']} not set")
+        raise RuntimeError(f"token not set for user {user['name']}")
 
-    rounds = random.randint(1, 9)
+    rounds = random.randint(1, 3)
 
     url = f"{base_url}/api/v1/digital_lifes/{user['digital_life_id']}/chat_history/generate"
 
