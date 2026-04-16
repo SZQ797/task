@@ -1619,53 +1619,6 @@
             }
           }
         }
-      },
-      "delete": {
-        "tags": [
-          "设备管理"
-        ],
-        "summary": "删除设备",
-        "operationId": "delete_device",
-        "security": [
-          {
-            "CustomHTTPBearer": []
-          }
-        ],
-        "parameters": [
-          {
-            "name": "pk",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "description": "设备 ID",
-              "title": "Pk"
-            },
-            "description": "设备 ID"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResponseModel"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
       }
     },
     "/api/v1/devices": {
