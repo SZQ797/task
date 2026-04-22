@@ -3602,6 +3602,22 @@
               "title": "Trophy Type"
             },
             "description": "奖杯类型（COMPANION/ENCOUNTER）"
+          },
+          {
+            "name": "sort_by",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "unlocked_at",
+                "stage"
+              ],
+              "type": "string",
+              "description": "排序方式：unlocked_at=按解锁时间正序(默认)；stage=按所属阶段/类型/名称正序",
+              "default": "unlocked_at",
+              "title": "Sort By"
+            },
+            "description": "排序方式：unlocked_at=按解锁时间正序(默认)；stage=按所属阶段/类型/名称正序"
           }
         ],
         "responses": {
@@ -4750,6 +4766,16 @@
             "title": "Life Name",
             "description": "生命名称"
           },
+          "user_id": {
+            "type": "string",
+            "title": "User Id",
+            "description": "用户UUID"
+          },
+          "persona_id": {
+            "type": "string",
+            "title": "Persona Id",
+            "description": "人设ID"
+          },
           "persona_settings": {
             "anyOf": [
               {
@@ -4775,30 +4801,6 @@
             "title": "Core Memories",
             "description": "核心记忆"
           },
-          "user_id": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "User Id",
-            "description": "用户UUID"
-          },
-          "persona_id": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Persona Id",
-            "description": "人设ID"
-          },
           "voice_type": {
             "anyOf": [
               {
@@ -4814,7 +4816,9 @@
         },
         "type": "object",
         "required": [
-          "life_name"
+          "life_name",
+          "user_id",
+          "persona_id"
         ],
         "title": "CreateDigitalLifeParam",
         "description": "创建参数"
