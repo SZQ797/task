@@ -2691,6 +2691,52 @@
         }
       }
     },
+    "/api/v1/iot/open/chat-status": {
+      "get": {
+        "tags": [
+          "对外开放接口-IOT"
+        ],
+        "summary": "获取设备对话状态(对话项目调用,设备开机首次握手)",
+        "description": "获取设备对话状态(normal/warning/stopped)",
+        "operationId": "get_device_chat_status",
+        "parameters": [
+          {
+            "name": "hardware_no",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 1,
+              "description": "设备硬件编号",
+              "title": "Hardware No"
+            },
+            "description": "设备硬件编号"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseSchemaModel_GetDeviceChatStatusDetail_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/digital_lifes/{pk}": {
       "get": {
         "tags": [
@@ -5448,6 +5494,16 @@
         "title": "DeviceBindHistoryUser",
         "description": "用户信息"
       },
+      "DeviceChatStatusType": {
+        "type": "integer",
+        "enum": [
+          0,
+          1,
+          2
+        ],
+        "title": "DeviceChatStatusType",
+        "description": "设备对话状态(厂商协议: 0正常/1告警/2耗尽)"
+      },
       "DigitalLifeDevice": {
         "properties": {
           "device_name": {
@@ -6624,6 +6680,76 @@
         ],
         "title": "GetDeptTree",
         "description": "获取部门树"
+      },
+      "GetDeviceChatStatusDetail": {
+        "properties": {
+          "device_id": {
+            "type": "string",
+            "title": "Device Id",
+            "description": "设备ID"
+          },
+          "hardware_no": {
+            "type": "string",
+            "title": "Hardware No",
+            "description": "硬件编号"
+          },
+          "chat_status": {
+            "$ref": "#/components/schemas/DeviceChatStatusType",
+            "description": "设备对话状态(normal/warning/stopped)"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason",
+            "description": "状态原因(系统判定或人工备注)"
+          },
+          "access_expires_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Access Expires At",
+            "description": "订阅有效期截止时间"
+          },
+          "expires_in_seconds": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expires In Seconds",
+            "description": "距订阅到期剩余秒数(<=0 表示已过期)"
+          },
+          "server_time": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Server Time",
+            "description": "服务端当前时间(用于设备校准)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "device_id",
+          "hardware_no",
+          "chat_status",
+          "server_time"
+        ],
+        "title": "GetDeviceChatStatusDetail",
+        "description": "设备对话状态"
       },
       "GetDeviceDetail": {
         "properties": {
@@ -12307,6 +12433,30 @@
         ],
         "title": "ResponseSchemaModel[GetDeptDetail]"
       },
+      "ResponseSchemaModel_GetDeviceChatStatusDetail_": {
+        "properties": {
+          "code": {
+            "type": "integer",
+            "title": "Code",
+            "description": "返回状态码",
+            "default": 200
+          },
+          "msg": {
+            "type": "string",
+            "title": "Msg",
+            "description": "返回信息",
+            "default": "请求成功"
+          },
+          "data": {
+            "$ref": "#/components/schemas/GetDeviceChatStatusDetail"
+          }
+        },
+        "type": "object",
+        "required": [
+          "data"
+        ],
+        "title": "ResponseSchemaModel[GetDeviceChatStatusDetail]"
+      },
       "ResponseSchemaModel_GetDeviceDetail_": {
         "properties": {
           "code": {
@@ -14436,7 +14586,7 @@
               }
             ],
             "title": "Hardware No",
-            "description": "硬件编号"
+            "description": "硬件编号(只读，传入将被忽略)"
           },
           "series": {
             "anyOf": [
@@ -14452,7 +14602,7 @@
               }
             ],
             "title": "Series",
-            "description": "系列"
+            "description": "系列(只读，传入将被忽略)"
           },
           "model_id": {
             "anyOf": [
@@ -14554,7 +14704,7 @@
         },
         "type": "object",
         "title": "UpdateDeviceParam",
-        "description": "更新设备参数"
+        "description": "更新设备参数(hardware_no / series 不可变更)"
       },
       "UpdateDiaryIsReadParam": {
         "properties": {
