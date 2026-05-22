@@ -5432,23 +5432,44 @@
             "description": "运势分析"
           },
           "favorable": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array",
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "string"
+              }
+            ],
             "title": "Favorable",
             "description": "宜"
           },
           "avoid": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array",
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "string"
+              }
+            ],
             "title": "Avoid",
             "description": "忌"
           },
           "lucky_number": {
-            "type": "integer",
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "string"
+              }
+            ],
             "title": "Lucky Number",
             "description": "幸运数字"
           },
@@ -5466,6 +5487,11 @@
             "type": "string",
             "title": "Lucky Food",
             "description": "幸运食物"
+          },
+          "today_label": {
+            "type": "string",
+            "title": "Today Label",
+            "description": "今日运势标签"
           },
           "analysis_date": {
             "type": "string",
@@ -5493,6 +5519,7 @@
           "lucky_color",
           "lucky_accessory",
           "lucky_food",
+          "today_label",
           "analysis_date",
           "energy_type",
           "energy_type_description"
