@@ -5489,7 +5489,14 @@
             "description": "幸运食物"
           },
           "today_label": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Today Label",
             "description": "今日运势标签"
           },
@@ -5519,7 +5526,6 @@
           "lucky_color",
           "lucky_accessory",
           "lucky_food",
-          "today_label",
           "analysis_date",
           "energy_type",
           "energy_type_description"
