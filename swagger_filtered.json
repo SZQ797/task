@@ -169,13 +169,24 @@
         }
       }
     },
-    "/api/v1/auth/withdraw": {
+    "/api/v1/auth/withdraw/sms/send": {
       "post": {
         "tags": [
           "授权"
         ],
-        "summary": "用户注销",
-        "operationId": "withdraw",
+        "summary": "发送注销短信验证码",
+        "description": "通过火山引擎短信服务下发注销专用验证码，仅允许已登录用户对本人手机号发送",
+        "operationId": "withdraw_sms_send",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WithdrawSmsSendParam"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -183,6 +194,62 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ]
+      }
+    },
+    "/api/v1/auth/withdraw": {
+      "post": {
+        "tags": [
+          "授权"
+        ],
+        "summary": "用户注销",
+        "operationId": "withdraw",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WithdrawParam"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseModel"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
                 }
               }
             }
@@ -15767,6 +15834,46 @@
         ],
         "title": "VerifyBindCodeParam",
         "description": "绑定码校验参数"
+      },
+      "WithdrawParam": {
+        "properties": {
+          "phone": {
+            "type": "string",
+            "pattern": "^1[3-9]\\d{9}$",
+            "title": "Phone",
+            "description": "手机号"
+          },
+          "code": {
+            "type": "string",
+            "maxLength": 8,
+            "minLength": 4,
+            "title": "Code",
+            "description": "短信验证码"
+          }
+        },
+        "type": "object",
+        "required": [
+          "phone",
+          "code"
+        ],
+        "title": "WithdrawParam",
+        "description": "注销参数：携带短信验证码"
+      },
+      "WithdrawSmsSendParam": {
+        "properties": {
+          "phone": {
+            "type": "string",
+            "pattern": "^1[3-9]\\d{9}$",
+            "title": "Phone",
+            "description": "手机号"
+          }
+        },
+        "type": "object",
+        "required": [
+          "phone"
+        ],
+        "title": "WithdrawSmsSendParam",
+        "description": "注销发送短信验证码参数（必须为当前登录用户绑定的手机号）"
       },
       "WxappLoginParam": {
         "properties": {
