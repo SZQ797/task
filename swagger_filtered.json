@@ -1538,6 +1538,55 @@
         }
       }
     },
+    "/api/v1/devices/detail/by_hardware_no": {
+      "get": {
+        "tags": [
+          "设备管理"
+        ],
+        "summary": "通过硬件编号获取设备详情",
+        "operationId": "get_device_by_hardware_no",
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "hardware_no",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "硬件编号",
+              "title": "Hardware No"
+            },
+            "description": "硬件编号"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseSchemaModel_GetDeviceDetail_"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/devices/{pk}": {
       "get": {
         "tags": [
