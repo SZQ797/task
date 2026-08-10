@@ -4112,6 +4112,32 @@
         ]
       }
     },
+    "/api/v1/sys/notices/latest": {
+      "get": {
+        "tags": [
+          "系统通知"
+        ],
+        "summary": "获取最新系统通知",
+        "operationId": "get_latest_notice",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseSchemaModel_Union_GetLatestNoticeDetail__NoneType__"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "CustomHTTPBearer": []
+          }
+        ]
+      }
+    },
     "/api/v1/health": {
       "get": {
         "summary": "服务健康检测",
@@ -7927,6 +7953,36 @@
         ],
         "title": "GetInnerOSDetail",
         "description": "内心OS详情"
+      },
+      "GetLatestNoticeDetail": {
+        "properties": {
+          "publish_date": {
+            "type": "string",
+            "title": "Publish Date"
+          },
+          "title": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title"
+          },
+          "content": {
+            "type": "string",
+            "title": "Content"
+          }
+        },
+        "type": "object",
+        "required": [
+          "publish_date",
+          "content"
+        ],
+        "title": "GetLatestNoticeDetail",
+        "description": "最新系统通知详情"
       },
       "GetLoginLogDetail": {
         "properties": {
@@ -13056,6 +13112,37 @@
           "data"
         ],
         "title": "ResponseSchemaModel[SetVolumeDetail]"
+      },
+      "ResponseSchemaModel_Union_GetLatestNoticeDetail__NoneType__": {
+        "properties": {
+          "code": {
+            "type": "integer",
+            "title": "Code",
+            "description": "返回状态码",
+            "default": 200
+          },
+          "msg": {
+            "type": "string",
+            "title": "Msg",
+            "description": "返回信息",
+            "default": "请求成功"
+          },
+          "data": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/GetLatestNoticeDetail"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "data"
+        ],
+        "title": "ResponseSchemaModel[Union[GetLatestNoticeDetail, NoneType]]"
       },
       "ResponseSchemaModel_Union_list_GetMenuTree___NoneType__": {
         "properties": {
